@@ -1,7 +1,5 @@
 package com.sam.demo.VO;
 
-import com.sam.demo.VO.rule.Rule;
-import com.sam.demo.enums.RuleTypeEnum;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -14,7 +12,6 @@ import java.math.BigDecimal;
 @BlockHeader(blockKey="invoiceDetail" , blockTitle="Invoice Detail")
 public class InvoiceDetailVO {
     @BlockInfo(key="invoiceQty",title="invoice QTY")
-    @Rule(rules = {RuleTypeEnum.REQUIRED})
     private int invoiceQty;
 
     private BigDecimal unitPrice;

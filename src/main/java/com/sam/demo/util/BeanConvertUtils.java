@@ -6,13 +6,11 @@ import com.sam.demo.VO.BlockInfo;
 
 import com.sam.demo.VO.RuleVO;
 import com.sam.demo.VO.rule.RequiredRuleVO;
-import com.sam.demo.VO.rule.Rule;
 import com.sam.demo.enums.RuleTypeEnum;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.beans.BeanInfo;
-import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.annotation.Annotation;
@@ -20,7 +18,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 /**
