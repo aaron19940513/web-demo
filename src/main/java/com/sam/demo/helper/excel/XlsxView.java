@@ -1,9 +1,9 @@
 package com.sam.demo.helper.excel;
 
 import com.google.common.net.UrlEscapers;
-import com.synnex.hyve.invoice.base.util.ExcelUtils;
-import com.synnex.hyve.invoice.service.vo.DownloadExcelVO;
-import org.apache.commons.lang.StringUtils;
+import com.sam.demo.VO.DownloadExcelVO;
+import com.sam.demo.util.ExcelUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,7 +1,6 @@
 package com.sam.demo.VO.rule;
 
 
-import com.sam.demo.VO.RuleVO;
 import com.sam.demo.constant.RuleConst;
 import lombok.*;
 
@@ -19,11 +18,5 @@ public class RequiredRuleVO extends RuleVO {
     private RequiredRuleVO() {
         super.setMessage(RuleConst.REQUIRED_BUT_NULL);
         this.required = true;
-    }
-    @Builder
-    private RequiredRuleVO(boolean required) {
-        if(required==true){
-            new RequiredRuleVO();
-        }
     }
 }

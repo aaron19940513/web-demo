@@ -1,5 +1,6 @@
 package com.sam.demo.VO;
 
+import com.sam.demo.VO.rule.RuleVO;
 import lombok.*;
 
 import java.util.List;
@@ -39,6 +40,5 @@ public class BlockInfoVO {
 
     private OptionsVO options;
 
-    private RuleVO[] rules;
-
+    private List<RuleVO> rules;
 }

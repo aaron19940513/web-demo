@@ -3,6 +3,7 @@ package com.sam.demo.util;
 
 
 import com.sam.demo.enums.NumStrFormatEnum;
+import com.sam.demo.exception.BaseException;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -203,19 +204,22 @@ public class NumberUtils {
         }
     }
 
+
     private static <T> BigDecimal transStringToDecimal(T number) {
         if (numStrIsDigital(number.toString())) {
             try {
                 return transToDecimal(DecimalFormat.getInstance().parse(number.toString()));
             } catch (ParseException e) {
-                throw new BizException(String.format("String trans to Decimal error, source string=%s", number));
+                //throw new BaseException(String.format("String trans to Decimal error, source string=%s", number));
             }
         } else if (numStrIsSpecZero(number.toString())) {
             return BigDecimal.ZERO;
         } else {
-            throw new BizException(String.format("String trans to Decimal error, source string=%s", number));
+            // throw new BaseException(String.format("String trans to Decimal error, source string=%s", number));
         }
+        return  null;
     }
+
 
     private static String formatNumStr(Double doubleValue, int newScale) {
         DecimalFormat decimalFormat = new DecimalFormat();

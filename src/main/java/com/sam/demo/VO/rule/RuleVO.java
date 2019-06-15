@@ -1,4 +1,4 @@
-package com.sam.demo.VO;
+package com.sam.demo.VO.rule;
 
 import lombok.*;
 

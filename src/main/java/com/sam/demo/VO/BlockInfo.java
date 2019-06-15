@@ -15,5 +15,6 @@ public @interface BlockInfo {
     DisplayTypeEnum displayType() default DisplayTypeEnum.INPUT;
     boolean hidden() default false;
     boolean editable() default true;
+    int index();
 
 }

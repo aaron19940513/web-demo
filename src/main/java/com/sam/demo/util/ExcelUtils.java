@@ -2,6 +2,16 @@ package com.sam.demo.util;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.sam.demo.VO.ExcelStyleVO;
+import com.sam.demo.constant.DateConst;
+import com.sam.demo.exception.BaseException;
+import com.sam.demo.helper.excel.BigExcelReader;
+import com.sam.demo.helper.excel.ColumnStyle;
+import com.sam.demo.helper.excel.ExcelTranslate;
+import com.sam.demo.helper.excel.SpecFieldValueStyle;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.streaming.SXSSFSheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
@@ -49,7 +59,7 @@ public class ExcelUtils {
             exportHeader(styleMap, sheet, headers, fields);
             exportData(workbook, styleMap, sheet, data, fields);
         } catch (Exception e) {
-            throw new BizException("Excel export error", e);
+            //throw new BaseException("Excel export error", e);
         }
     }
 
@@ -241,7 +251,7 @@ public class ExcelUtils {
             try {
                 instance = targetClazz.newInstance();
             } catch (Exception e) {
-                throw new BizException("Create target VO failed.", e);
+                throw new BaseException("Create target VO failed.", e);
             }
             String[] dataLine = lines.get(i);
             if (dataLine == null) {
@@ -260,9 +270,9 @@ public class ExcelUtils {
                     continue;
                 }
                 try {
-                    FieldUtils.setValueByFieldWithSpecType(instance, entry.getValue().getField(), value);
+                    //FieldUtils.setValueByFieldWithSpecType(instance, entry.getValue().getField(), value);
                 } catch (Exception e) {
-                    throw new BizException(String.format("Row %s,Column[%s] format error.", i, indexMap.get(index).getHeader()), e);
+                    throw new BaseException(String.format("Row %s,Column[%s] format error.", i, indexMap.get(index).getHeader()), e);
                 }
             }
             FieldUtils.setValueByField(instance, "uploadLineNo", i + 1);
@@ -291,7 +301,7 @@ public class ExcelUtils {
                     break;
                 }
                 if (i == headLine.length - 1) {
-                    throw new BizException(String.format("%s is required but the excel file does not provide.", transEnum.getHeader()));
+                    //throw new BaseException(String.format("%s is required but the excel file does not provide.", transEnum.getHeader()));
                 }
             }
         });
@@ -335,8 +345,9 @@ public class ExcelUtils {
             LOGGER.info("Excel trans string array end, line size ={}", lines.size());
             return parseStringArrayToObject(lines, enums, 1, targetClazz);
         } catch (Exception e) {
-            throw new InvoiceBizException("Excel imports with error", e);
+            // throw new BaseException("Excel imports with error", e);
         }
+        return  null;
     }
 
 }

@@ -1,12 +1,7 @@
 package com.sam.demo.helper.excel;
 import java.util.List;
 
-/**
- * The interface Excel translate enum.
- *
- * @author Rakim
- * @date 2018 /9/3
- */
+
 public interface ExcelTranslate {
     /**
      * Gets name.

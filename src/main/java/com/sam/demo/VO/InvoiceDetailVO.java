@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @BlockHeader(blockKey="invoiceDetail" , blockTitle="Invoice Detail")
 public class InvoiceDetailVO {
-    @BlockInfo(key="invoiceQty",title="invoice QTY")
+
     private int invoiceQty;
 
     private BigDecimal unitPrice;

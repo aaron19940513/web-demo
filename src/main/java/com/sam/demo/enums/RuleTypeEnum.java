@@ -1,11 +1,9 @@
 package com.sam.demo.enums;
 
-import com.sam.demo.VO.RuleVO;
+import com.sam.demo.VO.rule.RuleVO;
 import com.sam.demo.VO.rule.RequiredRuleVO;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;

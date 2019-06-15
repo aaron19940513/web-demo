@@ -5,12 +5,7 @@ import org.apache.poi.ss.usermodel.IndexedColors;
 
 import java.lang.annotation.*;
 
-/**
- * Column style
- *
- * @author Rakim
- * @date 2018 /11/21
- */
+
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 @Documented
