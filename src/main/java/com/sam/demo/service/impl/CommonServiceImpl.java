@@ -5,8 +5,12 @@ import com.sam.demo.VO.AccountVO;
 import com.sam.demo.VO.BlockInfoVO;
 import com.sam.demo.VO.CustomerTradetypeRelationVO;
 import com.sam.demo.VO.CustomerVO;
+import com.sam.demo.enums.SexEnum;
+import com.sam.demo.mysql.dao.CustomerRespsory;
+import com.sam.demo.mysql.entity.CustomerEntity;
 import com.sam.demo.service.CommonService;
 import com.sam.demo.util.BeanConvertUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,6 +18,9 @@ import java.util.List;
 
 @Service
 public class CommonServiceImpl implements CommonService {
+
+    @Autowired
+    private CustomerRespsory customerRespsory;
 
     @Override
     public List<BlockInfoVO> buildBlock() {
@@ -32,4 +39,22 @@ public class CommonServiceImpl implements CommonService {
         }
         return list;
     }
+
+    @Override
+    public List<CustomerVO> queryCustomer() {
+        List<CustomerEntity> customers =customerRespsory.findAll();
+        return null;
+    }
+
+    @Override
+    public List<CustomerEntity> testEnum() {
+        return customerRespsory.findAll();
+    }
+
+    @Override
+    public void testsave() {
+        CustomerEntity customer = CustomerEntity.builder().age(25).country("CH").sex(SexEnum.MALE).name("sam").build();
+        customerRespsory.save(customer);
+    }
+
 }

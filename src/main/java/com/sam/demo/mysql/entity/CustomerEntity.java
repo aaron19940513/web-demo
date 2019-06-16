@@ -1,19 +1,44 @@
 package com.sam.demo.mysql.entity;
 
-import javax.persistence.*;
-import java.util.Objects;
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.sam.demo.enums.SexEnum;
+import com.sam.demo.enums.SexEnumConvert;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Objects;
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "customer", schema = "test")
-public class CustomerEntity {
-    private int id;
-    private String name;
-    private String country;
-    private int age;
-    private Object sex;
+public class CustomerEntity implements Serializable {
 
     @Id
     @Column(name = "ID")
+    private int id;
+    @Basic
+    @Column(name = "NAME")
+    private String name;
+    @Basic
+    @Column(name = "COUNTRY")
+    private String country;
+    @Basic
+    @Column(name = "AGE")
+    private int age;
+    @Basic
+    @Column(name = "SEX")
+    // @Enumerated(EnumType.STRING)
+    @Convert(converter = SexEnumConvert.class)
+    @JSONField(serialzeFeatures = SerializerFeature.WriteEnumUsingToString)
+    //@JSONField(serialzeFeatures = SerializerFeature.WriteEnumUsingName)
+    private SexEnum sex;
+
+
     public int getId() {
         return id;
     }
@@ -22,8 +47,7 @@ public class CustomerEntity {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "NAME")
+
     public String getName() {
         return name;
     }
@@ -32,8 +56,7 @@ public class CustomerEntity {
         this.name = name;
     }
 
-    @Basic
-    @Column(name = "COUNTRY")
+
     public String getCountry() {
         return country;
     }
@@ -42,8 +65,7 @@ public class CustomerEntity {
         this.country = country;
     }
 
-    @Basic
-    @Column(name = "AGE")
+
     public int getAge() {
         return age;
     }
@@ -52,15 +74,14 @@ public class CustomerEntity {
         this.age = age;
     }
 
-    @Basic
-    @Column(name = "SEX")
-    public Object getSex() {
+    public SexEnum getSex() {
         return sex;
     }
-
-    public void setSex(Object sex) {
+    public void Sex(SexEnum sex) {
         this.sex = sex;
     }
+
+
 
     @Override
     public boolean equals(Object o) {
