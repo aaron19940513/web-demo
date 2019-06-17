@@ -215,7 +215,7 @@ public class NumberUtils {
         } else if (numStrIsSpecZero(number.toString())) {
             return BigDecimal.ZERO;
         } else {
-            // throw new BaseException(String.format("String trans to Decimal error, source string=%s", number));
+             throw new BaseException(String.format("String trans to Decimal error, source string=%s", number));
         }
         return  null;
     }

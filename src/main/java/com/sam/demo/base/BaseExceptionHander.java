@@ -1,5 +1,6 @@
 package com.sam.demo.base;
 
+import com.sam.demo.exception.BaseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.ConversionNotSupportedException;
@@ -106,11 +107,17 @@ public class BaseExceptionHander {
         return resultFormat(13, ex);
     }
 
+    //除数不能为0
+    @ExceptionHandler({BaseException.class})
+    public ResultEntity baseException(BaseException ex) {
+        return resultFormat(14, ex);
+    }
+
 
     //其他错误
     @ExceptionHandler({Exception.class})
     public ResultEntity exception(Exception ex) {
-        return resultFormat(14, ex);
+        return resultFormat(15, ex);
     }
 
     private <T extends Throwable> ResultEntity resultFormat(Integer code, T ex) {
