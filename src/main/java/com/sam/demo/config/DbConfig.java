@@ -26,12 +26,11 @@ import java.util.Properties;
 /**
  * The type Hyve invoice data source configuration.
  */
-//@Configuration
-//@ConditionalOnJndi
-//@EnableJpaRepositories(basePackages = {"com.sam.demo.mysql"},
-//        entityManagerFactoryRef = "entityManagerFactory",
-//        transactionManagerRef = "transactionManager",
-//        repositoryBaseClass = PersistBaseRepositoryImpl.class)
+@Configuration
+@EnableJpaRepositories(basePackages = {"com.sam.demo.mysql"},
+        entityManagerFactoryRef = "entityManagerFactory",
+        transactionManagerRef = "transactionManager",
+        repositoryBaseClass = PersistBaseRepositoryImpl.class)
 public class DbConfig {
 
 
@@ -57,24 +56,28 @@ public class DbConfig {
      */
     @Primary
     @Bean(name = "dataSource")
-    @ConditionalOnProperty(prefix = "spring.datasource")
     public DataSource dataSource(@Autowired @Qualifier("dataSourceProperties") DataSourceProperties dataSourceProperties) {
         //dataSourceLookup = new JndiDataSourceLookup();
         //DataSource dataSource = dataSourceLookup.getDataSource(invoiceDataSourceProperties.getJndiName());
-        return DataSourceBuilder.create().build();
+        DataSource dataSource = DataSourceBuilder.create()
+                .driverClassName(dataSourceProperties.getDriverClassName())
+                .url(dataSourceProperties.getUrl())
+                .username(dataSourceProperties.getUsername())
+                .password(dataSourceProperties.getPassword()).build();
+        return dataSource;
     }
 
     /**
      * Plm entity manager factory local container entity manager factory bean.
      *
-     * @param dataSource the invoice data source
-     * @param hibernateConfig   the hibernate config
+     * @param dataSource      the invoice data source
+     * @param hibernateConfig the hibernate config
      * @return the local container entity manager factory bean
      */
     @Primary
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(@Autowired @Qualifier("dataSource") DataSource dataSource,
-                                                                              @Autowired HibernateConfig hibernateConfig) {
+                                                                       @Autowired HibernateConfig hibernateConfig) {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource);
         em.setPersistenceUnitName("persistentUnit");

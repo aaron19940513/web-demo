@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @param <T> the type parameter
  * @param <D> the type parameter
  */
-//@NoRepositoryBean
+@NoRepositoryBean
 public interface BaseRepository<T, D extends Serializable> extends JpaRepository<T, D>, JpaSpecificationExecutor<T> {
 
 }

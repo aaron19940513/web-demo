@@ -16,7 +16,7 @@ import java.util.List;
  * @param <T> the type parameter
  * @param <K> the type parameter
  */
-//@NoRepositoryBean
+@NoRepositoryBean
 public class PersistBaseRepositoryImpl<T, K extends Serializable> extends SimpleJpaRepository<T, K> implements PersistBaseRepository<T, K> {
     private final EntityManager em;
     private final JpaEntityInformation<T, ?> entityInformation;

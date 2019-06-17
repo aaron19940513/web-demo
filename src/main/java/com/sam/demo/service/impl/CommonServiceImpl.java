@@ -6,7 +6,7 @@ import com.sam.demo.VO.BlockInfoVO;
 import com.sam.demo.VO.CustomerTradetypeRelationVO;
 import com.sam.demo.VO.CustomerVO;
 import com.sam.demo.enums.SexEnum;
-import com.sam.demo.mysql.dao.CustomerRespsory;
+import com.sam.demo.mysql.dao.CustomerRepository;
 import com.sam.demo.mysql.entity.CustomerEntity;
 import com.sam.demo.service.CommonService;
 import com.sam.demo.util.BeanConvertUtils;
@@ -20,7 +20,7 @@ import java.util.List;
 public class CommonServiceImpl implements CommonService {
 
     @Autowired
-    private CustomerRespsory customerRespsory;
+    private CustomerRepository customerRepository;
 
     @Override
     public List<BlockInfoVO> buildBlock() {
@@ -42,19 +42,19 @@ public class CommonServiceImpl implements CommonService {
 
     @Override
     public List<CustomerVO> queryCustomer() {
-        List<CustomerEntity> customers =customerRespsory.findAll();
+        List<CustomerEntity> customers =customerRepository.findAll();
         return null;
     }
 
     @Override
     public List<CustomerEntity> testEnum() {
-        return customerRespsory.findAll();
+        return customerRepository.findAll();
     }
 
     @Override
     public void testsave() {
         CustomerEntity customer = CustomerEntity.builder().age(25).country("CH").sex(SexEnum.MALE).name("sam").build();
-        customerRespsory.save(customer);
+        customerRepository.save(customer);
     }
 
 }

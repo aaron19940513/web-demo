@@ -13,7 +13,7 @@ import java.util.List;
  * @param <T> the type parameter
  * @param <D> the type parameter
  */
-//@NoRepositoryBean
+@NoRepositoryBean
 public interface PersistBaseRepository<T, D extends Serializable> extends JpaRepository<T, D>, JpaSpecificationExecutor<T> {
     <S extends T> void  persist(S entity);
     <S extends T> void  persistAll(List<S> entities);

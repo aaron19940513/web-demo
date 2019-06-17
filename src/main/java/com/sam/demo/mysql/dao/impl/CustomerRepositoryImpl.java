@@ -13,8 +13,8 @@ import java.util.List;
 
 public class CustomerRepositoryImpl implements CustomerRepositoryCustomized {
 
-    @PersistenceContext(unitName = "persistentUnit")
-    private EntityManager hyveEntityManager;
+    //@PersistenceContext(unitName = "persistentUnit")
+    private EntityManager entityManager;
 
     @Override
     public List<CustomerVO> queryInvoiceDetailDate() {
@@ -33,7 +33,7 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustomized {
                              + " and (");
 
         stringBuilder.append(" );");
-        Query query = hyveEntityManager.createNativeQuery(stringBuilder.toString());
+        Query query = entityManager.createNativeQuery(stringBuilder.toString());
 
         List<Object[]> objArrList = query.getResultList();
         return wrapCustomer(objArrList);

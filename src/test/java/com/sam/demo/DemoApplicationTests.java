@@ -2,7 +2,8 @@ package com.sam.demo;
 
 import com.alibaba.fastjson.JSON;
 import com.sam.demo.enums.SexEnum;
-import com.sam.demo.mysql.dao.CustomerRespsory;
+import com.sam.demo.mysql.dao.CustomerRepository;
+import com.sam.demo.mysql.dao.CustomerRepositoryCustomized;
 import com.sam.demo.mysql.entity.CustomerEntity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +21,10 @@ import java.util.List;
 public class DemoApplicationTests {
 
     @Autowired
-    private CustomerRespsory<CustomerEntity> customerRespsory;
+    private CustomerRepository customerRepository;
+
+//    @Autowired
+//    private CustomerRepositoryCustomized customerRepositoryCustomized;
 
     @Test
     public void contextLoads() {
@@ -30,27 +34,27 @@ public class DemoApplicationTests {
     @Test
     public void testSortAndPage() {
         Sort sort = new Sort(Sort.Direction.DESC, "id");
-        List<CustomerEntity> customerEntityLis = customerRespsory.findAll(sort);
+        List<CustomerEntity> customerEntityLis = customerRepository.findAll(sort);
         System.out.println(JSON.toJSON(customerEntityLis));
 
         Pageable pageable = PageRequest.of(1, 1);
-        System.out.println(JSON.toJSON(customerRespsory.findAll(pageable).getContent()));
+        System.out.println(JSON.toJSON(customerRepository.findAll(pageable).getContent()));
 
         Pageable pageAndSort = PageRequest.of(1, 1, Sort.Direction.DESC, "id");
-        System.out.println(JSON.toJSON(customerRespsory.findAll(pageAndSort).getContent()));
+        System.out.println(JSON.toJSON(customerRepository.findAll(pageAndSort).getContent()));
     }
 
     @Test
     public void testJpql() {
-        //List<CustomerEntity> customerEntities = customerRespsory.queryHpql(SexEnum.MALE);
-        //System.out.println(JSON.toJSONString(customerEntities));
+        List<CustomerEntity> customerEntities = customerRepository.queryHpql(SexEnum.MALE);
+        System.out.println(JSON.toJSONString(customerEntities));
     }
 
 
     @Test
     public void testSpecial() {
-//        CustomerEntity customerEntity = CustomerEntity.builder().name("sam").build();
-//        List<CustomerEntity> customerEntities = customerRespsory.querySpecial(customerEntity);
+        CustomerEntity customerEntity = CustomerEntity.builder().name("sam").build();
+//        List<CustomerEntity> customerEntities = customerRepository.querySpecial(customerEntity);
 //        System.out.println(JSON.toJSONString(customerEntities));
     }
 }
