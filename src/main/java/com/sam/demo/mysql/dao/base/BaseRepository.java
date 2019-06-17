@@ -1,14 +1,18 @@
 package com.sam.demo.mysql.dao.base;
 
-import com.sam.demo.mysql.entity.CustomerEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
 
 import java.io.Serializable;
-import java.util.List;
 
-@NoRepositoryBean
-public interface BaseRepository<T, ID extends Serializable> extends JpaRepository<T, ID>, JpaSpecificationExecutor<T> {
+/**
+ * The interface Base repository.
+ *
+ * @param <T> the type parameter
+ * @param <D> the type parameter
+ */
+//@NoRepositoryBean
+public interface BaseRepository<T, D extends Serializable> extends JpaRepository<T, D>, JpaSpecificationExecutor<T> {
 
 }

@@ -42,15 +42,15 @@ public class DemoApplicationTests {
 
     @Test
     public void testJpql() {
-        List<CustomerEntity> customerEntities = customerRespsory.queryHpql(SexEnum.MALE);
-        System.out.println(JSON.toJSONString(customerEntities));
+        //List<CustomerEntity> customerEntities = customerRespsory.queryHpql(SexEnum.MALE);
+        //System.out.println(JSON.toJSONString(customerEntities));
     }
 
 
     @Test
     public void testSpecial() {
-        CustomerEntity customerEntity = CustomerEntity.builder().name("sam").build();
-        List<CustomerEntity> customerEntities = customerRespsory.querySpecial(customerEntity);
-        System.out.println(JSON.toJSONString(customerEntities));
+//        CustomerEntity customerEntity = CustomerEntity.builder().name("sam").build();
+//        List<CustomerEntity> customerEntities = customerRespsory.querySpecial(customerEntity);
+//        System.out.println(JSON.toJSONString(customerEntities));
     }
 }

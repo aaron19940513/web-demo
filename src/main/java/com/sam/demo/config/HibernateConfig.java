@@ -2,14 +2,8 @@ package com.sam.demo.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-/**
- * The type Hibernate config.
- *
- * @author Rakim
- * @date 2018 /9/14
- */
-@Component
-@ConfigurationProperties(prefix = "spring.jpa.hibernate")
+//@Component
+//@ConfigurationProperties(prefix = "spring.jpa.hibernate")
 public class HibernateConfig {
     private String batchValueSize;
     private String orderInserts;

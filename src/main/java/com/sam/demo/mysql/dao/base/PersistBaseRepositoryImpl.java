@@ -1,4 +1,4 @@
-package com.sam.demo.mysql.dao;
+package com.sam.demo.mysql.dao.base;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
@@ -16,8 +16,8 @@ import java.util.List;
  * @param <T> the type parameter
  * @param <K> the type parameter
  */
-@NoRepositoryBean
-public class InvoiceBaseRepositoryImpl<T, K extends Serializable> extends SimpleJpaRepository<T, K> implements InvoiceBaseRepository<T, K> {
+//@NoRepositoryBean
+public class PersistBaseRepositoryImpl<T, K extends Serializable> extends SimpleJpaRepository<T, K> implements PersistBaseRepository<T, K> {
     private final EntityManager em;
     private final JpaEntityInformation<T, ?> entityInformation;
     private static final Integer BATCH_FLUSH_SIZE = 200;
@@ -29,7 +29,7 @@ public class InvoiceBaseRepositoryImpl<T, K extends Serializable> extends Simple
      * @param entityInformation the entity information
      * @param em                the em
      */
-    public InvoiceBaseRepositoryImpl(JpaEntityInformation<T, ?> entityInformation, EntityManager em) {
+    public PersistBaseRepositoryImpl(JpaEntityInformation<T, ?> entityInformation, EntityManager em) {
         super(entityInformation, em);
         this.entityInformation = entityInformation;
         this.em = em;
