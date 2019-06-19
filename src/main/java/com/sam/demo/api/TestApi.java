@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -68,12 +69,23 @@ public class TestApi {
      *
      * @return
      */
-
     @GetMapping(value = "/testsave")
     @ApiOperation(value = "测试含有枚举属性的entity新增")
     @ResponseBody()
     public String testEnum1() {
         commonService.testsave();
+        return null;
+    }
+
+
+    /**
+     * 实体类中的枚举类没办法序列化在实体中
+     *
+     * @return
+     */
+    @GetMapping(value = "/testValidate")
+    @ResponseBody()
+    public String testValidate(@Valid CustomerVO customerVO) {
         return null;
     }
 }

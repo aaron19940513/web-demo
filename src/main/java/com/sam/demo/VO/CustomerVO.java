@@ -15,16 +15,21 @@ import java.util.Optional;
 @BlockHeader(blockKey = "customer",blockTitle = "Customer Info")
 public class CustomerVO {
     private int id;
+
     @BlockInfo(key = "name", title = "Name",index = 1)
     @NotEmpty
     private String name;
+
     @BlockInfo(key = "country", title = "Country",index = 2)
-    @Max(value = 123,message = "over the max value")
     private String country;
+
     @BlockInfo(key = "age", title = "Age",index = 3)
+    @Max(value = 100)
     private int age;
+
     @BlockInfo(key = "sex", title = "Sex",index = 4)
     private String sex;
+
     @InnerVO
     private AccountVO accountVO;
 
