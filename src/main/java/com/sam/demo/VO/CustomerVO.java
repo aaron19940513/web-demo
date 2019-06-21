@@ -33,6 +33,7 @@ public class CustomerVO {
     @InnerVO
     private AccountVO accountVO;
 
+    @InnerVO
     private List<CustomerTradetypeRelationVO> customerTradetypeRelationVOS;
 
 }
