@@ -6,12 +6,19 @@ import java.util.Objects;
 @Entity
 @Table(name = "customer_tradetype_relation", schema = "test")
 public class CustomerTradetypeRelationEntity {
-    private String id;
-    private String customerId;
-    private String tradeTypeId;
-
     @Id
     @Column(name = "ID")
+    private String id;
+
+    @Basic
+    @Column(name = "CUSTOMER_ID")
+    private String customerId;
+
+    @Basic
+    @Column(name = "TRADE_TYPE_ID")
+    private String tradeTypeId;
+
+
     public String getId() {
         return id;
     }
@@ -20,8 +27,6 @@ public class CustomerTradetypeRelationEntity {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "CUSTOMER_ID")
     public String getCustomerId() {
         return customerId;
     }
@@ -30,8 +35,7 @@ public class CustomerTradetypeRelationEntity {
         this.customerId = customerId;
     }
 
-    @Basic
-    @Column(name = "TRADE_TYPE_ID")
+
     public String getTradeTypeId() {
         return tradeTypeId;
     }

@@ -4,14 +4,15 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.sam.demo.enums.SexEnum;
 import com.sam.demo.enums.SexEnumConvert;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 @Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -38,49 +39,9 @@ public class CustomerEntity implements Serializable {
     //@JSONField(serialzeFeatures = SerializerFeature.WriteEnumUsingName)
     private SexEnum sex;
 
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public SexEnum getSex() {
-        return sex;
-    }
-    public void Sex(SexEnum sex) {
-        this.sex = sex;
-    }
-
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "CUSTOMER_ID")
+    private List<CustomerTradetypeRelationEntity> customerTradetypeRelationEntities;
 
 
     @Override

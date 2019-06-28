@@ -23,8 +23,8 @@ public class DemoApplicationTests {
     @Autowired
     private CustomerRepository customerRepository;
 
-//    @Autowired
-//    private CustomerRepositoryCustomized customerRepositoryCustomized;
+    @Autowired
+       private CustomerRepositoryCustomized customerRepositoryCustomized;
 
     @Test
     public void contextLoads() {
@@ -53,8 +53,27 @@ public class DemoApplicationTests {
 
     @Test
     public void testSpecial() {
-        CustomerEntity customerEntity = CustomerEntity.builder().name("sam").build();
-//        List<CustomerEntity> customerEntities = customerRepository.querySpecial(customerEntity);
-//        System.out.println(JSON.toJSONString(customerEntities));
+        List<CustomerEntity> customerEntities = customerRepositoryCustomized.specialWithSex(SexEnum.MALE);
+        System.out.println(JSON.toJSONString(customerEntities));
+    }
+
+    @Test
+    public void testSpecialMulti() {
+        List<CustomerEntity> customerEntities = customerRepositoryCustomized.specialWithSexAndAge(SexEnum.MALE,9);
+        for (CustomerEntity customerEntity : customerEntities) {
+            System.out.println(customerEntity.getSex());
+            System.out.println(customerEntity.getAge());
+            System.out.println(customerEntity.getCustomerTradetypeRelationEntities());
+        }
+
+    }
+
+    @Test
+    public void testSpecialTableJoin() {
+        List<CustomerEntity> customerEntities = customerRepositoryCustomized.specialMultiTable(SexEnum.FMALE,9);
+        for (CustomerEntity customerEntity : customerEntities) {
+            System.out.println(customerEntity.getCustomerTradetypeRelationEntities());
+        }
+        System.out.println(JSON.toJSONString(customerEntities));
     }
 }
