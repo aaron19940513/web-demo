@@ -1,6 +1,5 @@
-package com.sam.demo.VO;
+package com.sam.demo.VO.rule;
 
-import com.sam.demo.VO.rule.RuleVO;
 import lombok.*;
 
 import java.util.List;
@@ -8,8 +7,8 @@ import java.util.List;
 @Builder
 @Setter
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class OptionsVO {
     private List<RuleVO> rules;
 }

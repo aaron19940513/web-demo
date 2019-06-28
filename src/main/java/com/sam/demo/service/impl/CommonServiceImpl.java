@@ -5,6 +5,8 @@ import com.sam.demo.VO.AccountVO;
 import com.sam.demo.VO.BlockInfoVO;
 import com.sam.demo.VO.CustomerTradetypeRelationVO;
 import com.sam.demo.VO.CustomerVO;
+import com.sam.demo.convert.BlockInfoConvertTemplate;
+import com.sam.demo.convert.ConvertTemplate;
 import com.sam.demo.enums.SexEnum;
 import com.sam.demo.mysql.dao.CustomerRepository;
 import com.sam.demo.mysql.entity.CustomerEntity;
@@ -32,7 +34,8 @@ public class CommonServiceImpl implements CommonService {
             CustomerTradetypeRelationVO customerTradetypeRelationVO2 =CustomerTradetypeRelationVO.builder().tradeTypeId("997").build();
             customer.setAccountVO(accountVO);
             customer.setCustomerTradetypeRelationVOS(Lists.newArrayList(customerTradetypeRelationVO,customerTradetypeRelationVO2));
-            list.addAll(BeanConvertUtils.convertBlock(customer, BlockInfoVO.class));
+            ConvertTemplate<BlockInfoVO> convertTemplate = new BlockInfoConvertTemplate();
+            list.addAll(convertTemplate.convertBeanToTemplate(customer));
 
         } catch (Exception e) {
             e.printStackTrace();

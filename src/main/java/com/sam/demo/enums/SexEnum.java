@@ -4,11 +4,8 @@ package com.sam.demo.enums;
 import java.io.Serializable;
 
 public enum  SexEnum implements Serializable {
-    MALE("male"){
-
-    }, FMALE("fmale"){
-
-    };
+    MALE("male"),
+    FMALE("fmale");
 
     private String value;
 
