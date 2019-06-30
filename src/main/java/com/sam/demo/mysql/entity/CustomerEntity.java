@@ -21,7 +21,8 @@ public class CustomerEntity implements Serializable {
 
     @Id
     @Column(name = "ID")
-    private int id;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Integer id;
     @Basic
     @Column(name = "NAME")
     private String name;
@@ -30,7 +31,7 @@ public class CustomerEntity implements Serializable {
     private String country;
     @Basic
     @Column(name = "AGE")
-    private int age;
+    private Integer age;
     @Basic
     @Column(name = "SEX")
     // @Enumerated(EnumType.STRING)
@@ -39,22 +40,11 @@ public class CustomerEntity implements Serializable {
     //@JSONField(serialzeFeatures = SerializerFeature.WriteEnumUsingName)
     private SexEnum sex;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "CUSTOMER_ID")
     private List<CustomerTradetypeRelationEntity> customerTradetypeRelationEntities;
 
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CustomerEntity that = (CustomerEntity) o;
-        return id == that.id &&
-                age == that.age &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(country, that.country) &&
-                Objects.equals(sex, that.sex);
-    }
 
     @Override
     public int hashCode() {

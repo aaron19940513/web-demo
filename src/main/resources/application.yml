@@ -2,10 +2,37 @@ server:
   port: 9991
 spring:
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/test?characterEncoding=utf-8&serverTimezone=UTC
     username: root
     password: 123456
+    druid:
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      filters: stat,wall
+      connection-properties: druid.stat.mergeSql\=true;druid.stat.slowSqlMillis\=5000
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+        exclusions: "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*"
+      stat-view-servlet:
+        deny: 192.168.1.73
+        reset-enable: false
+        url-pattern: /druid/*
+        allow: 127.0.0.1
+        login-username: admin
+        login-password: 123456
   jpa:
     hibernate:
       ddl-auto: none
@@ -13,9 +40,11 @@ spring:
       order-inserts: true
       order-updates: true
       batch-version-data: true
-
     show-sql: true
     database-platform: org.hibernate.dialect.MySQLDialect
+  messages:
+    basename: i18n/message
 swagger:
   enabled: true
 debug: true
+

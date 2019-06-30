@@ -13,5 +13,21 @@ public interface CommonService {
 
     List<CustomerEntity> testEnum();
 
-    void testsave();
+    void testSave();
+
+    void testEntityManager();
+
+    void testSaveAll();
+
+    void persistAll();
+
+    void persistAllWithAuto();
+
+    void updateBatch();
+
+    void update();
+
+    void mergeAll();
+
+    void merge();
 }

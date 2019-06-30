@@ -1,19 +1,25 @@
 package com.sam.demo.base;
 
+import com.alibaba.fastjson.JSON;
 import com.sam.demo.exception.BaseException;
+import com.sam.demo.validate.ParamValidationResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 
 
@@ -120,9 +126,30 @@ public class BaseExceptionHander {
         return resultFormat(15, ex);
     }
 
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    public ResultEntity MethodArgumentNotValidHandler(MethodArgumentNotValidException ex){
+
+        List<ParamValidationResult> paramValidationResults = new ArrayList<>();
+        //解析原错误信息，封装后返回，此处返回非法的字段名称，错误信息
+        for (FieldError error : ex.getBindingResult().getFieldErrors()) {
+            ParamValidationResult validationResult = new ParamValidationResult();
+            validationResult.setMessage(error.getDefaultMessage());
+            validationResult.setParam(error.getField());
+            paramValidationResults.add(validationResult);
+        }
+       return resultFormat(16, paramValidationResults);
+    }
+
+
     private <T extends Throwable> ResultEntity resultFormat(Integer code, T ex) {
         ex.printStackTrace();
         log.error(String.format(logExceptionFormat, code, ex.getMessage()));
         return ResultEntity.fail(ex.getMessage(), String.valueOf(code));
+    }
+
+
+    private <T extends Throwable> ResultEntity resultFormat(Integer code, Object message) {
+        log.error(String.format(logExceptionFormat, code, JSON.toJSON(message)));
+        return ResultEntity.fail(message, String.valueOf(code));
     }
 }

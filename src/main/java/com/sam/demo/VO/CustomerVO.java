@@ -24,7 +24,7 @@ public class CustomerVO {
     private String country;
 
     @BlockInfo(key = "age", title = "Age",index = 3)
-    @Max(value = 100)
+    @Max(value = 100,message = "{max.not.valid}")
     private int age;
 
     @BlockInfo(key = "sex", title = "Sex",index = 4)

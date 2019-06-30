@@ -1,15 +1,21 @@
 package com.sam.demo.mysql.dao.impl;
 
-import com.google.common.collect.Lists;
-import com.sam.demo.VO.CustomerVO;
+import com.sam.demo.exception.BaseException;
+import com.sam.demo.mysql.dao.CustomerRepository;
 import com.sam.demo.mysql.dao.CustomerRepositoryCustomized;
-import org.apache.commons.collections4.CollectionUtils;
+import com.sam.demo.mysql.entity.CustomerEntity;
+import com.sam.demo.mysql.entity.CustomerTradetypeRelationEntity;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.criteria.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,73 +23,78 @@ import java.util.Map;
 
 public class CustomerRepositoryImpl implements CustomerRepositoryCustomized {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(InvoiceDetailRepositoryImpl.class);
-    @PersistenceContext(unitName = "invoicePersistentUnit")
-    private EntityManager invoiceEntityManager;
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomerRepositoryImpl.class);
+
+    @PersistenceContext(unitName = "persistentUnit")
+    private EntityManager entityManager;
+
+    @Autowired
+    private CustomerRepository customerRepository;
+
 
     @Override
-    public void updateBatch(List<InvoiceDetail> invoiceDetails) {
-        if (null == invoiceDetails || invoiceDetails.isEmpty()) {
-            throw new InvoiceBizException("update invoice failed,the invoice number is null!");
+    public List<CustomerEntity> queryByNameWithNative(String name) throws BaseException {
+
+        StringBuffer querySql = new StringBuffer();
+        Map<Integer, Object> params = new HashMap<>();
+
+        CustomerEntity customerEntity = new CustomerEntity();
+        customerEntity.setName(name);
+        querySql.append("SELECT * FROM customer ");
+        querySql.append("WHERE");
+        querySql.append(buildWhereParamsWithAllCondition(customerEntity, params, params.size()));
+
+
+        Query excuteSql = entityManager.createNativeQuery(querySql.toString(), CustomerEntity.class);
+
+        params.forEach((k, v) -> {
+            excuteSql.setParameter(k, v);
+        });
+        List<CustomerEntity> customerEntities = excuteSql.getResultList();
+        return customerEntities;
+    }
+
+
+    @Override
+    @Transactional
+    public void updateBatch(List<CustomerEntity> customerEntities) throws BaseException {
+        if (null == customerEntities || customerEntities.isEmpty()) {
+            throw new BaseException("update invoice failed,the invoice number is null!");
         }
         StringBuffer updateSql = new StringBuffer();
         Map<Integer, Object> params = new HashMap<>();
-//        for (InvoiceDetail invoiceDetail : invoiceDetails) {
-//            updateSql.append("UPDATE HYVE_INVOICE.invoice_detail  SET ");
-//            updateSql.append(buildSetParams(invoiceDetail, params, params.size()));
-//            updateSql.append("WHERE");
-//            updateSql.append(buildWhereParams(invoiceDetail, params,  params.size()));
-//            updateSql.append(";");
-//        }
+        for (CustomerEntity customerEntity : customerEntities) {
+            updateSql.append(" UPDATE customer  SET ");
+            updateSql.append(buildSetParams(customerEntity, params, params.size()));
+            updateSql.append(" WHERE ");
+            updateSql.append(buildWhereParamsWithPK(customerEntity, params, params.size()));
+            updateSql.append(";");
+        }
+        updateSql.replace(updateSql.length() - 1, updateSql.length(), "");
 
-        updateSql.append(" UPDATE HYVE_INVOICE.invoice_detail  SET ");
-        updateSql.append(buildSetParams(invoiceDetails.get(0), params, params.size()));
-        updateSql.append(" WHERE");
-        updateSql.append(buildWhereParams(invoiceDetails.get(0), params,  params.size()));
-        updateSql.append(";");
-        Query update = invoiceEntityManager.createNativeQuery(updateSql.toString());
+        Query update = entityManager.createNativeQuery(updateSql.toString());
 
         params.forEach((k, v) -> {
             update.setParameter(k, v);
         });
-        //update.unwrap(SQLQuery.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+
         update.executeUpdate();
     }
 
 
-    private String buildSetParams(InvoiceDetail invoiceDetail, Map<Integer, Object> params, Integer index) {
+    private String buildSetParams(CustomerEntity customerEntity, Map<Integer, Object> params, Integer index) {
         StringBuffer setSql = new StringBuffer();
-        if (null != invoiceDetail.getInvoiceQty()) {
-            setSql.append("invoice_qty = ?" + ++index + ",");
-            params.put(index, invoiceDetail.getInvoiceQty());
+        if (null != customerEntity.getAge()) {
+            setSql.append("AGE = ?" + ++index + ",");
+            params.put(index, customerEntity.getAge());
         }
-        if (null != invoiceDetail.getUnitPrice()) {
-            setSql.append("unit_price = ?" + ++index + ",");
-            params.put(index, invoiceDetail.getUnitPrice());
+        if (StringUtils.isNotEmpty(customerEntity.getName())) {
+            setSql.append("NAME = ?" + ++index + ",");
+            params.put(index, customerEntity.getName());
         }
-        if (StringUtils.isNotEmpty(invoiceDetail.getCustPartType())) {
-            setSql.append("cust_part_type = ?" + ++index + ",");
-            params.put(index, invoiceDetail.getCustPartType());
-        }
-        if (StringUtils.isNotEmpty(invoiceDetail.getCustPartNo())) {
-            setSql.append("cust_part_no = ?" + ++index + ",");
-            params.put(index, invoiceDetail.getCustPartNo());
-        }
-        if (null != invoiceDetail.getCustPoLineNo()) {
-            setSql.append("invoice_line_no = ?" + ++index + ",");
-            params.put(index, invoiceDetail.getCustPoLineNo());
-        }
-        if (StringUtils.isNotEmpty(invoiceDetail.getOriginName())) {
-            setSql.append("origin_name = ?" + ++index + ",");
-            params.put(index, invoiceDetail.getOriginName());
-        }
-        if (StringUtils.isNotEmpty(invoiceDetail.getOriginCountry())) {
-            setSql.append("origin_country = ?" + ++index + ",");
-            params.put(index, invoiceDetail.getOriginCountry());
-        }
-        if (null != invoiceDetail.getUpdateId()) {
-            setSql.append("update_id = ?" + ++index + ",");
-            params.put(index, invoiceDetail.getUpdateId());
+        if (StringUtils.isNotEmpty(customerEntity.getCountry())) {
+            setSql.append("COUNTRY = ?" + ++index + ",");
+            params.put(index, customerEntity.getCountry());
         }
 
         String result = setSql.toString();
@@ -94,17 +105,126 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustomized {
         return result;
     }
 
-    private String buildWhereParams(InvoiceDetail invoiceDetail, Map<Integer, Object> params, Integer index) {
+    private String buildWhereParamsWithPK(CustomerEntity customerEntity, Map<Integer, Object> params, Integer index) {
         StringBuffer whereSql = new StringBuffer();
-        if (null != invoiceDetail.getInvoiceNumber()) {
-            whereSql.append("and invoice_number  = ?" + ++index);
-            params.put(index, invoiceDetail.getInvoiceNumber());
+        if (null != customerEntity.getId()) {
+            whereSql.append(" and ID  = ?" + ++index);
+            params.put(index, customerEntity.getId());
         }
 
         String result = whereSql.toString();
-        if (result.startsWith("and")) {
-            result = result.replaceFirst("and", "");
+        if (result.startsWith(" and")) {
+            result = result.replaceFirst(" and", " ");
         }
         return result;
+    }
+
+    private String buildWhereParamsWithAllCondition(CustomerEntity customerEntity, Map<Integer, Object> params, Integer index) {
+        StringBuffer whereSql = new StringBuffer();
+        if (null != customerEntity.getId()) {
+            whereSql.append(" and ID  = ?" + ++index);
+            params.put(index, customerEntity.getId());
+        }
+        if (null != customerEntity.getName()) {
+            whereSql.append(" and NAME  = ?" + ++index);
+            params.put(index, customerEntity.getName());
+        }
+        String result = whereSql.toString();
+        if (result.startsWith(" and")) {
+            result = result.replaceFirst(" and", " ");
+        }
+        return result;
+    }
+
+    @Override
+    public List<CustomerEntity> querySpecial(CustomerEntity customerEntity) {
+        return null;
+    }
+
+    @Override
+    public List<CustomerEntity> specialWithSex(Enum e) {
+        return customerRepository.findAll(sex(e));
+    }
+
+
+    public static Specification<CustomerEntity> sex(Enum e) {
+        return new Specification<CustomerEntity>() {
+            @Override
+            public Predicate toPredicate(Root<CustomerEntity> root, CriteriaQuery<?> query,
+                                         CriteriaBuilder builder) {
+
+                return builder.equal(root.get("sex"), e);
+            }
+        };
+    }
+
+    public static Specification<CustomerEntity> aget(int age) {
+        return new Specification<CustomerEntity>() {
+            @Override
+            public Predicate toPredicate(Root<CustomerEntity> root, CriteriaQuery<?> query,
+                                         CriteriaBuilder builder) {
+
+                return builder.greaterThan(root.get("age"), age);
+            }
+        };
+    }
+
+    @Override
+    public List<CustomerEntity> specialWithSexAndAge(Enum e, int age) {
+        //return customerRepository.findAll(sexAndAge(e,age));
+        return customerRepository.findAll(sexAndAge1(e, age));
+    }
+
+
+    public static Specification<CustomerEntity> sexAndAge(Enum e, int age) {
+        return new Specification<CustomerEntity>() {
+            @Override
+            public Predicate toPredicate(Root<CustomerEntity> root, CriteriaQuery<?> query,
+                                         CriteriaBuilder builder) {
+
+                return builder.and(builder.equal(root.get("sex"), e), builder.greaterThan(root.get("age"), age));
+            }
+        };
+    }
+
+    public static Specification<CustomerEntity> sexAndAge1(Enum e, int age) {
+        return new Specification<CustomerEntity>() {
+            @Override
+            public Predicate toPredicate(Root<CustomerEntity> root, CriteriaQuery<?> query,
+                                         CriteriaBuilder builder) {
+                Predicate finalConditions = builder.conjunction();
+                finalConditions = builder.and(finalConditions, builder.equal(root.get("sex"), e));
+                finalConditions = builder.and(finalConditions, builder.greaterThan(root.get("age"), age));
+                return query.where(finalConditions).getRestriction();
+            }
+        };
+    }
+
+    @Override
+    public List<CustomerEntity> specialMultiTable(Enum e, int age) {
+        return customerRepository.findAll(tableJoin(e, age));
+    }
+
+    public static Specification<CustomerEntity> tableJoin(Enum e, int age) {
+        return new Specification<CustomerEntity>() {
+            @Override
+            public Predicate toPredicate(Root<CustomerEntity> root, CriteriaQuery<?> query,
+                                         CriteriaBuilder builder) {
+                Predicate finalConditions = builder.conjunction();
+                Join<CustomerEntity, CustomerTradetypeRelationEntity> join = root.join("customerTradetypeRelationEntities", JoinType.LEFT);
+                Predicate p1 = builder.equal(join.get("sex"), "e");
+                finalConditions = builder.and(finalConditions, p1);
+                finalConditions = builder.and(finalConditions, builder.equal(root.get("sex"), e));
+                finalConditions = builder.and(finalConditions, builder.greaterThan(root.get("age"), age));
+                return query.where(finalConditions).getRestriction();
+            }
+        };
+    }
+
+    @Override
+    @Transactional
+    public void refresh() {
+        entityManager.flush();
+        entityManager.clear();
     }
 }

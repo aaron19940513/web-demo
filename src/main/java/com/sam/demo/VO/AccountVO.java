@@ -1,13 +1,8 @@
 package com.sam.demo.VO;
 
-import com.sam.demo.VO.BlockHeader;
-import com.sam.demo.VO.BlockInfo;
-import com.sam.demo.VO.CustomerTradetypeRelationVO;
 import lombok.*;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
-import java.util.List;
 
 @Builder
 @Setter

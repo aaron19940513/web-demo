@@ -7,6 +7,7 @@ import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 import java.util.List;
 
@@ -18,8 +19,12 @@ import java.util.List;
  */
 @NoRepositoryBean
 public class PersistBaseRepositoryImpl<T, K extends Serializable> extends SimpleJpaRepository<T, K> implements PersistBaseRepository<T, K> {
+
+    @PersistenceContext(unitName = "persistentUnit")
     private final EntityManager em;
+
     private final JpaEntityInformation<T, ?> entityInformation;
+
     private static final Integer BATCH_FLUSH_SIZE = 200;
 
 
@@ -36,13 +41,11 @@ public class PersistBaseRepositoryImpl<T, K extends Serializable> extends Simple
     }
 
     @Override
-    @Transactional
     public <S extends T> void persist(S entity) {
         em.persist(entity);
     }
 
     @Override
-    @Transactional
     public <S extends T> void persistAll(List<S> entities) {
         if (CollectionUtils.isEmpty(entities)) {
             return;
@@ -50,7 +53,7 @@ public class PersistBaseRepositoryImpl<T, K extends Serializable> extends Simple
         for (int i = 0; i < entities.size(); i++) {
             S entity = entities.get(i);
             em.persist(entity);
-            if (i % BATCH_FLUSH_SIZE == 0) {
+            if (i != 0 && i % BATCH_FLUSH_SIZE == 0) {
                 em.flush();
                 em.clear();
             }
@@ -58,4 +61,29 @@ public class PersistBaseRepositoryImpl<T, K extends Serializable> extends Simple
         em.flush();
         em.clear();
     }
+
+    @Override
+    @Transactional
+    public <S extends T> void merge(S entity) {
+        em.merge(entity);
+    }
+
+    @Override
+    @Transactional
+    public <S extends T> void mergeAll(List<S> entities) {
+        if (CollectionUtils.isEmpty(entities)) {
+            return;
+        }
+        for (int i = 0; i < entities.size(); i++) {
+            S entity = entities.get(i);
+            em.merge(entity);
+            if (i != 0 && i % BATCH_FLUSH_SIZE == 0) {
+                em.flush();
+                em.clear();
+            }
+        }
+        em.flush();
+        em.clear();
+    }
+
 }

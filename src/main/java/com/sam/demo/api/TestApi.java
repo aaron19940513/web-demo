@@ -9,6 +9,7 @@ import com.sam.demo.service.CommonService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -69,11 +70,11 @@ public class TestApi {
      *
      * @return
      */
-    @GetMapping(value = "/testsave")
+    @GetMapping(value = "/testSave")
     @ApiOperation(value = "测试含有枚举属性的entity新增")
     @ResponseBody()
-    public String testEnum1() {
-        commonService.testsave();
+    public String testSave() {
+        commonService.testSave();
         return null;
     }
 
@@ -83,9 +84,95 @@ public class TestApi {
      *
      * @return
      */
+    @GetMapping(value = "/testSaveAll")
+    @ApiOperation(value = "批量新增")
+    @ResponseBody()
+    public String testSaveAll() {
+        commonService.testSaveAll();
+        return null;
+    }
+
+    /**
+     * 实体类中的枚举类没办法序列化在实体中
+     *
+     * @return
+     */
+    @GetMapping(value = "/persistAll")
+    @ApiOperation(value = "批量新增")
+    @ResponseBody()
+    public String persistAll() {
+        commonService.persistAll();
+        return null;
+    }
+    /**
+     * 实体类中的枚举类没办法序列化在实体中
+     *
+     * @return
+     */
+    @GetMapping(value = "/persistAllWithAuto")
+    @ApiOperation(value = "批量新增")
+    @ResponseBody()
+    public String persistAllWithAuto() {
+        commonService.persistAllWithAuto();
+        return null;
+    }
+    /**
+     * 实体类中的枚举类没办法序列化在实体中
+     *
+     * @return
+     */
     @GetMapping(value = "/testValidate")
     @ResponseBody()
     public String testValidate(@Valid CustomerVO customerVO) {
         return null;
+    }
+
+    @GetMapping(value = "testEntityManager")
+    @ResponseBody
+    public String testEntityManager(){
+        commonService.testEntityManager();
+        return "";
+    }
+
+    /**
+     * 实体类中的枚举类没办法序列化在实体中
+     *
+     * @return
+     */
+    @GetMapping(value = "/update")
+    @ApiOperation(value = "批量新增")
+    @ResponseBody()
+    public String update() {
+        commonService.update();
+        return null;
+    }
+
+
+    @GetMapping(value = "updateBatch")
+    @ResponseBody
+    public String updateBatch(){
+        commonService.updateBatch();
+        return "";
+    }
+
+    /**
+     * 实体类中的枚举类没办法序列化在实体中
+     *
+     * @return
+     */
+    @GetMapping(value = "/merge")
+    @ApiOperation(value = "批量新增")
+    @ResponseBody()
+    public String merge() {
+        commonService.merge();
+        return null;
+    }
+
+
+    @GetMapping(value = "mergeAll")
+    @ResponseBody
+    public String mergeAll(){
+        commonService.mergeAll();
+        return "";
     }
 }

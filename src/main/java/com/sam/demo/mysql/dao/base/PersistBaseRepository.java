@@ -17,4 +17,6 @@ import java.util.List;
 public interface PersistBaseRepository<T, D extends Serializable> extends JpaRepository<T, D>, JpaSpecificationExecutor<T> {
     <S extends T> void  persist(S entity);
     <S extends T> void  persistAll(List<S> entities);
+    <S extends T> void  merge(S entity);
+    <S extends T> void  mergeAll(List<S> entities);
 }

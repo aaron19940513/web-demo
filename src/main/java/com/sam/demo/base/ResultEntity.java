@@ -16,7 +16,7 @@ public class ResultEntity {
 
     private String status;
 
-    public static ResultEntity fail(String message,String code){
+    public static ResultEntity fail(Object message,String code){
         return ResultEntity.builder().status(FAIL).error(Error.builder().code(code).message(message).build()).build();
 
     }
@@ -27,7 +27,7 @@ public class ResultEntity {
     @Builder
     @Data
     private static class Error{
-        private String message;
+        private Object message;
 
         private String code;
     }

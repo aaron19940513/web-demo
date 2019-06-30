@@ -6,6 +6,9 @@ public class SexEnumConvert implements AttributeConverter<SexEnum, String> {
 
     @Override
     public String convertToDatabaseColumn(SexEnum sex) {
+        if(null==sex){
+            return null;
+        }
         return sex.getValue();
     }
 

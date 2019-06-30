@@ -1,6 +1,7 @@
 package com.sam.demo.config;
 
 
+import com.alibaba.druid.pool.DruidDataSource;
 import com.sam.demo.mysql.dao.base.PersistBaseRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,40 +34,6 @@ import java.util.Properties;
         repositoryBaseClass = PersistBaseRepositoryImpl.class)
 public class DbConfig {
 
-
-    /**
-     * Plm data source properties data source properties.
-     *
-     * @return the data source properties
-     */
-    @Primary
-    @Bean(name = "dataSourceProperties")
-    @ConfigurationProperties("spring.datasource")
-    public DataSourceProperties dataSourceProperties() {
-        return new DataSourceProperties();
-    }
-
-
-    /**
-     * data source data source.
-     *
-     * @param dataSourceProperties the invoice data source properties
-     * @return the data source
-     * @throws NamingException the naming exception
-     */
-    @Primary
-    @Bean(name = "dataSource")
-    public DataSource dataSource(@Autowired @Qualifier("dataSourceProperties") DataSourceProperties dataSourceProperties) {
-        //dataSourceLookup = new JndiDataSourceLookup();
-        //DataSource dataSource = dataSourceLookup.getDataSource(invoiceDataSourceProperties.getJndiName());
-        DataSource dataSource = DataSourceBuilder.create()
-                .driverClassName(dataSourceProperties.getDriverClassName())
-                .url(dataSourceProperties.getUrl())
-                .username(dataSourceProperties.getUsername())
-                .password(dataSourceProperties.getPassword()).build();
-        return dataSource;
-    }
-
     /**
      * Plm entity manager factory local container entity manager factory bean.
      *
@@ -76,7 +43,7 @@ public class DbConfig {
      */
     @Primary
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(@Autowired @Qualifier("dataSource") DataSource dataSource,
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(@Autowired DruidDataSource dataSource,
                                                                        @Autowired HibernateConfig hibernateConfig) {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource);
