@@ -23,7 +23,7 @@ public class TestApi {
     private CommonService commonService;
 
     @GetMapping(value = "/test")
-    @ApiOperation(value = "组装block")
+    @ApiOperation(value = "组装block123")
     public List<BlockInfoVO> test() {
         List<BlockInfoVO> blockInfoVOS = commonService.buildBlock();
         return blockInfoVOS;
