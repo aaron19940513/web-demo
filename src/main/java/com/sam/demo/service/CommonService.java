@@ -9,7 +9,6 @@ import java.util.List;
 public interface CommonService {
     List<BlockInfoVO> buildBlock();
 
-    List<CustomerVO> queryCustomer();
 
     List<CustomerEntity> testEnum();
 

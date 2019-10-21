@@ -50,6 +50,8 @@ public class DbConfig {
         properties.setProperty("hibernate.order_inserts", hibernateConfig.getOrderInserts());
         properties.setProperty("hibernate.order_updates", hibernateConfig.getOrderUpdates());
         properties.setProperty("hibernate.jdbc.batch_versioned_data", hibernateConfig.getBatchVersionData());
+        //自动建表
+        // properties.setProperty("hibernate.hbm2ddl.auto", "update");
         em.setJpaProperties(properties);
         return em;
     }

@@ -49,11 +49,7 @@ public class CommonServiceImpl implements CommonService {
         return list;
     }
 
-    @Override
-    public List<CustomerVO> queryCustomer() {
-        List<CustomerEntity> customers = customerRepository.findAll();
-        return null;
-    }
+
 
     @Override
     public List<CustomerEntity> testEnum() {
@@ -89,7 +85,7 @@ public class CommonServiceImpl implements CommonService {
         customerEntity2.setName("小樱");
         customerEntity2.setCountry("Japan");
         customerEntity2.setAge(17);
-        customerEntity2.setSex(SexEnum.FMALE);
+        customerEntity2.setSex(SexEnum.FEMALE);
         List<CustomerEntity> customerEntities = Lists.newArrayList(customerEntity, customerEntity2);
         customerRepository.saveAll(customerEntities);
     }
@@ -123,7 +119,7 @@ public class CommonServiceImpl implements CommonService {
         customerEntity2.setName("小樱");
         customerEntity2.setCountry("Japan");
         customerEntity2.setAge(17);
-        customerEntity2.setSex(SexEnum.FMALE);
+        customerEntity2.setSex(SexEnum.FEMALE);
         List<CustomerEntity> customerEntities = Lists.newArrayList(customerEntity, customerEntity2);
         customerRepository.persistAll(customerEntities);
     }
@@ -136,7 +132,7 @@ public class CommonServiceImpl implements CommonService {
         customerEntity.setId(1);
         customerEntity.setName("Jan1");
         customerEntity.setAge(99);
-        customerEntity.setSex(SexEnum.FMALE);
+        customerEntity.setSex(SexEnum.FEMALE);
         List<CustomerEntity> customerEntities = Lists.newArrayList(customerEntity);
 
         try {
@@ -182,7 +178,7 @@ public class CommonServiceImpl implements CommonService {
 
     @Override
     public void mergeAll() {
-        List<CustomerEntity> customerEntityList = customerRepository.findBySex(SexEnum.FMALE);
+        List<CustomerEntity> customerEntityList = customerRepository.findBySex(SexEnum.FEMALE);
         for (CustomerEntity customerEntity : customerEntityList) {
             customerEntity.setAge(13);
         }

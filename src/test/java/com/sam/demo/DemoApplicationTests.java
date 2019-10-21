@@ -2,6 +2,7 @@ package com.sam.demo;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
+import com.sam.demo.VO.MyTestBean;
 import com.sam.demo.enums.SexEnum;
 import com.sam.demo.exception.BaseException;
 import com.sam.demo.mysql.dao.CustomerRepository;
@@ -9,8 +10,11 @@ import com.sam.demo.mysql.dao.CustomerRepositoryCustomized;
 import com.sam.demo.mysql.entity.CustomerEntity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -129,7 +133,7 @@ public class DemoApplicationTests {
 
     @Test
     public void testSpecialTableJoin() {
-        List<CustomerEntity> customerEntities = customerRepository.specialMultiTable(SexEnum.FMALE, 9);
+        List<CustomerEntity> customerEntities = customerRepository.specialMultiTable(SexEnum.FEMALE, 9);
         for (CustomerEntity customerEntity : customerEntities) {
             System.out.println(customerEntity.getCustomerTradetypeRelationEntities());
         }
@@ -150,7 +154,7 @@ public class DemoApplicationTests {
         customerEntity2.setName("小樱");
         customerEntity2.setCountry("Japan");
         customerEntity2.setAge(17);
-        customerEntity2.setSex(SexEnum.FMALE);
+        customerEntity2.setSex(SexEnum.FEMALE);
         List<CustomerEntity> customerEntities = Lists.newArrayList(customerEntity, customerEntity2);
         customerRepository.saveAll(customerEntities);
     }
@@ -168,7 +172,7 @@ public class DemoApplicationTests {
         customerEntity2.setName("小樱");
         customerEntity2.setCountry("Japan");
         customerEntity2.setAge(17);
-        customerEntity2.setSex(SexEnum.FMALE);
+        customerEntity2.setSex(SexEnum.FEMALE);
         List<CustomerEntity> customerEntities = Lists.newArrayList(customerEntity, customerEntity2);
         customerRepository.persistAll(customerEntities);
     }
@@ -179,4 +183,6 @@ public class DemoApplicationTests {
         String a = validatorFactory.getMessageInterpolator().interpolate("{max.not.valid}", null);
         System.out.println(a);
     }
+
+
 }

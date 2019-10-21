@@ -29,14 +29,6 @@ public class TestApi {
         return blockInfoVOS;
     }
 
-    @GetMapping(value = "/get")
-    @ApiOperation(value = "测试查询")
-    @ResponseBody
-    public List<CustomerVO> get() {
-        List<CustomerVO> customerVOS = commonService.queryCustomer();
-        return customerVOS;
-    }
-
 
     /**
      * 实体类中的枚举类没办法序列化在实体中
@@ -45,7 +37,6 @@ public class TestApi {
      */
     @GetMapping(value = "/testEnum")
     @ApiOperation(value = "测试实体类中的枚举类")
-    @ResponseBody
     public List<CustomerEntity> testEnum() {
         List<CustomerEntity> customerEntities = commonService.testEnum();
         return customerEntities;
