@@ -15,7 +15,7 @@ import org.springframework.core.io.ClassPathResource;
 public class SpringTest {
     @Test
     public void testSimpleLoad() {
-        BeanFactory beanFactory = new XmlBeanFactory(new ClassPathResource("application.xml"));
+        BeanFactory beanFactory = new XmlBeanFactory(new ClassPathResource("src/test/application.xml"));
         MyTestBean myTestBean = (MyTestBean) beanFactory.getBean("myTestBean");
         System.out.println(myTestBean.getTestStr());
     }

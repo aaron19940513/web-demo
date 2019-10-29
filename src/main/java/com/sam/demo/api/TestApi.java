@@ -4,6 +4,7 @@ package com.sam.demo.api;
 import com.alibaba.fastjson.JSON;
 import com.sam.demo.VO.BlockInfoVO;
 import com.sam.demo.VO.CustomerVO;
+import com.sam.demo.config.ApiInfomation;
 import com.sam.demo.mysql.entity.CustomerEntity;
 import com.sam.demo.service.CommonService;
 import io.swagger.annotations.Api;
@@ -24,8 +25,10 @@ public class TestApi {
 
     @GetMapping(value = "/test")
     @ApiOperation(value = "组装block123")
+    @ApiInfomation(methodType = "123",applicationName = "345")
     public List<BlockInfoVO> test() {
         List<BlockInfoVO> blockInfoVOS = commonService.buildBlock();
+
         return blockInfoVOS;
     }
 
@@ -162,8 +165,8 @@ public class TestApi {
 
     @GetMapping(value = "mergeAll")
     @ResponseBody
-    public String mergeAll(){
+    public void mergeAll(){
         commonService.mergeAll();
-        return "";
+        throw new RuntimeException("123");
     }
 }

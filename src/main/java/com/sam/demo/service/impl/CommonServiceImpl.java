@@ -174,6 +174,7 @@ public class CommonServiceImpl implements CommonService {
         CustomerEntity customerEntity = customerRepository.findById(1).get();
         customerEntity.setAge(99);
         customerRepository.merge(customerEntity);
+
     }
 
     @Override
