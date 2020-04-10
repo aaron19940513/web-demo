@@ -2,19 +2,14 @@ package com.sam.demo;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
-import com.sam.demo.VO.MyTestBean;
 import com.sam.demo.enums.SexEnum;
 import com.sam.demo.exception.BaseException;
-import com.sam.demo.mysql.dao.CustomerRepository;
-import com.sam.demo.mysql.dao.CustomerRepositoryCustomized;
-import com.sam.demo.mysql.entity.CustomerEntity;
+import com.sam.demo.mysql.dao.primary.CustomerRepository;
+import com.sam.demo.mysql.entity.primary.CustomerEntity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -88,19 +83,19 @@ public class DemoApplicationTests {
         System.out.println(JSON.toJSONString(customerEntities));
     }
 
-    @Test
-    public void testNativeSql3() throws BaseException {
-        CustomerEntity customerEntity = new CustomerEntity();
-        customerEntity.setId(1);
-        customerEntity.setName("Jan");
-
-        CustomerEntity customerEntity2 = new CustomerEntity();
-        customerEntity2.setId(2);
-        customerEntity2.setName("Sam");
-        List<CustomerEntity> customerEntities = Lists.newArrayList(customerEntity, customerEntity2);
-        customerRepository.updateBatch(customerEntities);
-        System.out.println(JSON.toJSONString(customerEntities));
-    }
+    // @Test
+    // public void testNativeSql3() throws BaseException {
+    //     CustomerEntity customerEntity = new CustomerEntity();
+    //     customerEntity.setId(1);
+    //     customerEntity.setName("Jan");
+    //
+    //     CustomerEntity customerEntity2 = new CustomerEntity();
+    //     customerEntity2.setId(2);
+    //     customerEntity2.setName("Sam");
+    //     List<CustomerEntity> customerEntities = Lists.newArrayList(customerEntity, customerEntity2);
+    //     customerRepository.updateBatch(customerEntities);
+    //     System.out.println(JSON.toJSONString(customerEntities));
+    // }
 
 
     @Test
@@ -131,14 +126,14 @@ public class DemoApplicationTests {
 
     }
 
-    @Test
-    public void testSpecialTableJoin() {
-        List<CustomerEntity> customerEntities = customerRepository.specialMultiTable(SexEnum.FEMALE, 9);
-        for (CustomerEntity customerEntity : customerEntities) {
-            System.out.println(customerEntity.getCustomerTradetypeRelationEntities());
-        }
-        System.out.println(JSON.toJSONString(customerEntities));
-    }
+    // @Test
+    // public void testSpecialTableJoin() {
+    //     List<CustomerEntity> customerEntities = customerRepository.specialMultiTable(SexEnum.FEMALE, 9);
+    //     for (CustomerEntity customerEntity : customerEntities) {
+    //         System.out.println(customerEntity.getCustomerTradetypeRelationEntities());
+    //     }
+    //     System.out.println(JSON.toJSONString(customerEntities));
+    // }
 
     @Test
     @Transactional
@@ -176,13 +171,5 @@ public class DemoApplicationTests {
         List<CustomerEntity> customerEntities = Lists.newArrayList(customerEntity, customerEntity2);
         customerRepository.persistAll(customerEntities);
     }
-
-
-    @Test
-    public void test99() {
-        String a = validatorFactory.getMessageInterpolator().interpolate("{max.not.valid}", null);
-        System.out.println(a);
-    }
-
 
 }

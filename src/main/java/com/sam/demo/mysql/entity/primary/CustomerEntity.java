@@ -1,4 +1,4 @@
-package com.sam.demo.mysql.entity;
+package com.sam.demo.mysql.entity.primary;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.serializer.SerializerFeature;
@@ -44,10 +44,4 @@ public class CustomerEntity implements Serializable {
     @JoinColumn(name = "CUSTOMER_ID")
     private List<CustomerTradetypeRelationEntity> customerTradetypeRelationEntities;
 
-
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, country, age, sex);
-    }
 }

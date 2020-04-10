@@ -5,9 +5,10 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.Properties;
+
 @Setter
 @Getter
-@ConfigurationProperties("spring.datasource.druid")
+//@ConfigurationProperties("spring.datasource.druid")
 public class DruidDataSourceProperties {
     private Integer initialSize;
     private Integer minIdle;
@@ -32,6 +33,7 @@ public class DruidDataSourceProperties {
     private Boolean poolPreparedStatements = true;
     private Integer maxPoolPreparedStatementPerConnectionSize;
     private Properties connectionProperties;
+
     public Properties toProperties() {
         Properties properties = new Properties();
         notNullAdd(properties, "testWhileIdle", this.testWhileIdle);

@@ -26,31 +26,31 @@ import org.springframework.transaction.PlatformTransactionManager;
 /**
  * The type local data source configuration.
  */
-// @Configuration
-// @EnableJpaRepositories(basePackages = {"com.sam.demo.mysql.dao.primary"},
-//                        entityManagerFactoryRef = "localEntityManagerFactory",
-//                        transactionManagerRef = "localTransactionManager",
+//@Configuration
+// @EnableJpaRepositories(basePackages = {"com.sam.demo.mysql.dao.secondary"},
+//                        entityManagerFactoryRef = "secondaryEntityManagerFactory",
+//                        transactionManagerRef = "secondaryTransactionManager",
 //                        repositoryBaseClass = PersistBaseRepositoryImpl.class)
-public class DbConfig {
+public class DbConfig2 {
 
     /**
      * manager factory local container entity manager factory bean.
      *
-     * @param localDataSource      the invoice data source
+     * @param dataSource      the invoice data source
      * @param hibernateConfig the hibernate config
      * @return the local container entity manager factory bean
      */
     @Primary
     @Bean
-    public LocalContainerEntityManagerFactoryBean localEntityManagerFactory(@Autowired @Qualifier("localDataSource") DataSource localDataSource,
-                                                                            @Autowired HibernateConfig hibernateConfig) {
+    public LocalContainerEntityManagerFactoryBean secondaryEntityManagerFactory(@Autowired @Qualifier("secondaryDataSource") DataSource dataSource,
+                                                                                @Autowired HibernateConfig hibernateConfig) {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(localDataSource);
-        em.setPersistenceUnitName("localPersistentUnit");
+        em.setDataSource(dataSource);
+        em.setPersistenceUnitName("secondaryPersistentUnit");
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         vendorAdapter.setDatabasePlatform("org.hibernate.dialect.MySQL5Dialect");
         em.setJpaVendorAdapter(vendorAdapter);
-        em.setPackagesToScan("com.sam.demo.mysql.entity.primary");
+        em.setPackagesToScan("com.sam.demo.mysql.entity.secondary");
         Properties properties = new Properties();
         properties.setProperty("hibernate.jdbc.batch_size", hibernateConfig.getBatchValueSize());
         properties.setProperty("hibernate.order_inserts", hibernateConfig.getOrderInserts());
@@ -67,11 +67,11 @@ public class DbConfig {
      *
      * @return the data source
      */
-    @Primary
-    @Bean(name = "localDataSource")
-    @ConditionalOnProperty(prefix = "spring.datasource.primary", name = "driverClassName")
-    @ConfigurationProperties(prefix = "spring.datasource.primary")
-    public DataSource localDataSource(@Autowired @Qualifier("localDataSourceProperties") DataSourceProperties dataSourceProperties) {
+
+    @Bean(name = "secondaryDataSource")
+    @ConditionalOnProperty(prefix = "spring.datasource.secondary", name = "driverClassName")
+    @ConfigurationProperties(prefix = "spring.datasource.secondary")
+    public DataSource secondaryDataSource(@Autowired @Qualifier("secondaryDataSourceProperties") DataSourceProperties dataSourceProperties) {
         return DataSourceBuilder.create()
                                 .driverClassName(dataSourceProperties.getDriverClassName())
                                 .url(dataSourceProperties.getUrl())
@@ -84,33 +84,31 @@ public class DbConfig {
      *
      * @return the data source properties
      */
-    @Primary
-    @Bean(name = "localDataSourceProperties")
-    @ConfigurationProperties("spring.datasource.primary")
-    public DataSourceProperties localDataSourceProperties() {
+    @Bean(name = "secondaryDataSourceProperties")
+    @ConfigurationProperties("spring.datasource.secondary")
+    public DataSourceProperties secondaryDataSourceProperties() {
         return new DataSourceProperties();
     }
 
 
     /**
-     * Hyve transaction manager platform transaction manager.
+     * secondary transaction manager platform transaction manager.
      *
-     * @param localEntityManagerFactory the hyve entity manager factory
+     * @param secondaryEntityManagerFactory the hyve entity manager factory
      * @return the platform transaction manager
      */
-    @Primary
+
     @Bean
-    public PlatformTransactionManager localTransactionManager(
-        @Autowired @Qualifier("localEntityManagerFactory") EntityManagerFactory localEntityManagerFactory) {
+    public PlatformTransactionManager secondaryTransactionManager(
+        @Autowired @Qualifier("secondaryEntityManagerFactory") EntityManagerFactory secondaryEntityManagerFactory) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(localEntityManagerFactory);
+        transactionManager.setEntityManagerFactory(secondaryEntityManagerFactory);
         return transactionManager;
     }
 
-    @Primary
-    @Bean(name = "localEntityManager")
-    public EntityManager entityManager(@Qualifier("localEntityManagerFactory") EntityManagerFactory localEntityManagerFactory) {
-        return localEntityManagerFactory.createEntityManager();
+    @Bean(name = "secondaryEntityManager")
+    public EntityManager entityManager(@Qualifier("secondaryEntityManagerFactory") EntityManagerFactory secondaryEntityManagerFactory) {
+        return secondaryEntityManagerFactory.createEntityManager();
     }
 
 }

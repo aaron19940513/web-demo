@@ -13,8 +13,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  * @author sam
  * @date 08/27/19 13:48
  */
-@Configuration
-@EnableWebMvc
+// @Configuration
+// @EnableWebMvc
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {

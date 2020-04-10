@@ -1,4 +1,4 @@
-package com.sam.demo.mysql.entity;
+package com.sam.demo.mysql.entity.primary;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -54,8 +54,4 @@ public class CustomerTradetypeRelationEntity {
                 Objects.equals(tradeTypeId, that.tradeTypeId);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, customerId, tradeTypeId);
-    }
 }

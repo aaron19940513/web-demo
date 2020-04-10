@@ -26,12 +26,12 @@ import org.springframework.transaction.PlatformTransactionManager;
 /**
  * The type local data source configuration.
  */
-// @Configuration
-// @EnableJpaRepositories(basePackages = {"com.sam.demo.mysql.dao.primary"},
-//                        entityManagerFactoryRef = "localEntityManagerFactory",
-//                        transactionManagerRef = "localTransactionManager",
-//                        repositoryBaseClass = PersistBaseRepositoryImpl.class)
-public class DbConfig {
+@Configuration
+@EnableJpaRepositories(basePackages = {"com.sam.demo.mysql.dao.primary"},
+                       entityManagerFactoryRef = "localEntityManagerFactory",
+                       transactionManagerRef = "localTransactionManager",
+                       repositoryBaseClass = PersistBaseRepositoryImpl.class)
+public class DbConfigOriginal {
 
     /**
      * manager factory local container entity manager factory bean.
@@ -69,8 +69,8 @@ public class DbConfig {
      */
     @Primary
     @Bean(name = "localDataSource")
-    @ConditionalOnProperty(prefix = "spring.datasource.primary", name = "driverClassName")
-    @ConfigurationProperties(prefix = "spring.datasource.primary")
+    // @ConditionalOnProperty(prefix = "spring.datasource", name = "driverClassName")
+    // @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource localDataSource(@Autowired @Qualifier("localDataSourceProperties") DataSourceProperties dataSourceProperties) {
         return DataSourceBuilder.create()
                                 .driverClassName(dataSourceProperties.getDriverClassName())
@@ -86,7 +86,7 @@ public class DbConfig {
      */
     @Primary
     @Bean(name = "localDataSourceProperties")
-    @ConfigurationProperties("spring.datasource.primary")
+    @ConfigurationProperties("spring.datasource")
     public DataSourceProperties localDataSourceProperties() {
         return new DataSourceProperties();
     }

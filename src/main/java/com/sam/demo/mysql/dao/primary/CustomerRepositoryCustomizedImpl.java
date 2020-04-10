@@ -1,10 +1,8 @@
-package com.sam.demo.mysql.dao.impl;
+package com.sam.demo.mysql.dao.primary;
 
 import com.sam.demo.exception.BaseException;
-import com.sam.demo.mysql.dao.CustomerRepository;
-import com.sam.demo.mysql.dao.CustomerRepositoryCustomized;
-import com.sam.demo.mysql.entity.CustomerEntity;
-import com.sam.demo.mysql.entity.CustomerTradetypeRelationEntity;
+import com.sam.demo.mysql.entity.primary.CustomerEntity;
+import com.sam.demo.mysql.entity.primary.CustomerTradetypeRelationEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,11 +19,11 @@ import java.util.List;
 import java.util.Map;
 
 
-public class CustomerRepositoryImpl implements CustomerRepositoryCustomized {
+public class CustomerRepositoryCustomizedImpl implements CustomerRepositoryCustomized {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CustomerRepositoryImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomerRepositoryCustomizedImpl.class);
 
-    @PersistenceContext(unitName = "persistentUnit")
+    @PersistenceContext(unitName = "localPersistentUnit")
     private EntityManager entityManager;
 
     @Autowired
@@ -212,7 +210,7 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustomized {
                                          CriteriaBuilder builder) {
                 Predicate finalConditions = builder.conjunction();
                 Join<CustomerEntity, CustomerTradetypeRelationEntity> join = root.join("customerTradetypeRelationEntities", JoinType.LEFT);
-                Predicate p1 = builder.equal(join.get("sex"), "e");
+                Predicate p1 = builder.equal(join.get("sex"), e);
                 finalConditions = builder.and(finalConditions, p1);
                 finalConditions = builder.and(finalConditions, builder.equal(root.get("sex"), e));
                 finalConditions = builder.and(finalConditions, builder.greaterThan(root.get("age"), age));

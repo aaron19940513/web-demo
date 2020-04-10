@@ -1,7 +1,7 @@
-package com.sam.demo.mysql.dao;
+package com.sam.demo.mysql.dao.primary;
 
 import com.sam.demo.exception.BaseException;
-import com.sam.demo.mysql.entity.CustomerEntity;
+import com.sam.demo.mysql.entity.primary.CustomerEntity;
 
 import java.util.List;
 

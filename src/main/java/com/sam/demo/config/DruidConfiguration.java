@@ -10,14 +10,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
-@Configuration
-@ConditionalOnClass({DruidDataSource.class})
-@ConditionalOnProperty(
-        name = {"spring.datasource.type"},
-        havingValue = "com.alibaba.druid.pool.DruidDataSource",
-        matchIfMissing = true
-)
-@EnableConfigurationProperties(DruidDataSourceProperties.class)
+// @Configuration
+// @ConditionalOnClass({DruidDataSource.class})
+// @ConditionalOnProperty(
+//         name = {"spring.datasource.type"},
+//         havingValue = "com.alibaba.druid.pool.DruidDataSource",
+//         matchIfMissing = true
+// )
+// @EnableConfigurationProperties(DruidDataSourceProperties.class)
 public class DruidConfiguration {
 
     /**
